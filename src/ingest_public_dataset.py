@@ -1,17 +1,16 @@
 """
-ingest_public_dataset.py - Public Benchmark Dataset Ingestion & Cross-Domain Validation Suite
+ingest_public_dataset.py - Schema-Conformant Public Proxy Benchmark Ingestion & Cross-Domain Validation Suite
 MS Thesis: Reinforcement Learning-Based Adaptive Alerts Correlation for Detecting Multi-Stage Cyber Attacks
 Candidate: Haaziq Rasool (Bahria University Islamabad)
 Supervisor: Dr. Hafiz Ishfaq Ahmad
 
-Maps external public benchmark datasets (Proposal Table 2):
-1. CICIDS2017 (Network Flow & Web Attack Telemetry)
-2. ModSecurity 30-Day Real WAF Logs
-3. CSE-WEB-SEC (Web Security Benchmark)
-4. AI-WAF / UNSW-NB15 Schemas
+Evaluates cross-domain schema adaptability using standardized proxy samples conforming to public dataset schemas:
+1. CICIDS2017 Schema: Network flow records and port-scan attack signatures.
+2. ModSecurity Schema: Web Application Firewall (WAF) HTTP transaction and SQLi rule signatures.
 
-Provides an automated Cross-Domain Validation routine testing whether the trained RL Agent
-can ingest, normalize, and correlate multi-source attacks formatted according to public standards.
+NOTE: This module generates a controlled, schema-conformant synthetic proxy matching the exact tabular
+structures, field names, and attack patterns of CICIDS2017 and ModSecurity. It is designed to rigorously
+validate cross-domain parser normalization and zero-shot RL generalization without external label noise.
 """
 
 import os
@@ -79,7 +78,7 @@ def map_modsecurity_to_unified(df_modsec: pd.DataFrame) -> pd.DataFrame:
 
 def create_public_benchmark_sample(output_dir: str = "data/public_benchmark") -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
-    Constructs a standardized, realistic cross-dataset benchmark sample combining
+    Constructs a standardized, schema-conformant cross-dataset proxy sample combining
     CICIDS2017 network flows and ModSecurity WAF application records.
     """
     os.makedirs(output_dir, exist_ok=True)
@@ -148,7 +147,7 @@ def create_public_benchmark_sample(output_dir: str = "data/public_benchmark") ->
     df_modsec = pd.DataFrame(modsec_rows)
     df_modsec.to_csv(os.path.join(output_dir, "modsecurity_sample.csv"), index=False)
 
-    print(f"[+] Public benchmark datasets synthesized and stored in {output_dir}")
+    print(f"[+] Schema-conformant public proxy datasets synthesized and stored in {output_dir}")
     return df_cicids, df_modsec
 
 
@@ -157,11 +156,11 @@ def run_cross_domain_evaluation(
     benchmark_dir: str = "data/public_benchmark"
 ) -> Dict[str, float]:
     """
-    Executes cross-domain zero-shot evaluation on public benchmark data
+    Executes cross-domain zero-shot evaluation on schema-conformant public benchmark proxy data
     (CICIDS2017 + ModSecurity) using the unified schema translator and the trained RL agent.
     """
     print("\n=======================================================")
-    print("      PUBLIC DATASET CROSS-DOMAIN COMPATIBILITY        ")
+    print("   PUBLIC BENCHMARK PROXY CROSS-DOMAIN COMPATIBILITY   ")
     print("=======================================================")
     
     # 1. Create or load public dataset samples
