@@ -15,8 +15,25 @@ import sys
 import json
 import zipfile
 import tempfile
+import random
 import numpy as np
 from typing import Dict, Any, Tuple, Optional, List
+
+def set_global_seed(seed: int = 42) -> None:
+    """
+    Sets deterministic random seeds across Python random, NumPy, and PyTorch (if available)
+    to guarantee full experimental reproducibility.
+    """
+    random.seed(seed)
+    np.random.seed(seed)
+    try:
+        import torch
+        torch.manual_seed(seed)
+        if torch.cuda.is_available():
+            torch.cuda.manual_seed_all(seed)
+    except ImportError:
+        pass
+    os.environ["PYTHONHASHSEED"] = str(seed)
 
 # Add project root to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -430,8 +447,12 @@ def train(
     buffer_size: int = 50000,
     gamma: float = 0.99,
     exploration_fraction: float = 0.2,
-    batch_size: int = 64
+    batch_size: int = 64,
+    seed: int = 42
 ) -> Tuple[StandaloneDQN, StandalonePPO]:
+    print(f"[*] Setting deterministic global seed: {seed}")
+    set_global_seed(seed)
+
     print(f"[*] Ingesting preprocessed arrays from {features_path} and {targets_path}...")
     features = np.load(features_path)
     targets = np.load(targets_path)
@@ -462,7 +483,7 @@ def train(
         hidden_dim=64
     )
 
-    obs, _ = dqn_env.reset()
+    obs, _ = dqn_env.reset(seed=seed)
     target_sync_interval = 1000
     eps_start, eps_end = 1.0, 0.05
     decay_steps = int(total_timesteps * exploration_fraction)
@@ -508,7 +529,7 @@ def train(
         gamma=0.99
     )
 
-    obs, _ = ppo_env.reset()
+    obs, _ = ppo_env.reset(seed=seed)
     batch_obs, batch_acts, batch_rews, batch_probs = [], [], [], []
     ppo_steps = total_timesteps
 
@@ -558,4 +579,11 @@ def train(
 
 
 if __name__ == "__main__":
-    train()
+    import argparse
+    parser = argparse.ArgumentParser(description="Train DQN and PPO agents for log correlation.")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducible training (default: 42)")
+    parser.add_argument("--timesteps", type=int, default=60000, help="Total timesteps per agent (default: 60000)")
+    args = parser.parse_args()
+
+    train(seed=args.seed, total_timesteps=args.timesteps)
+
