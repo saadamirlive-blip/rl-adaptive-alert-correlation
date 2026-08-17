@@ -61,13 +61,13 @@
   },
   "latency_and_throughput": {
     "dqn": {
-      "avg_latency_microseconds": 13.634460046887398,
-      "throughput_events_per_sec": 73343.57184377752,
+      "avg_latency_microseconds": 14.021839946508408,
+      "throughput_events_per_sec": 71317.31668703086,
       "evaluated_samples": 5000
     },
     "ppo": {
-      "avg_latency_microseconds": 18.390419706702232,
-      "throughput_events_per_sec": 54376.13800818034,
+      "avg_latency_microseconds": 18.108800053596497,
+      "throughput_events_per_sec": 55221.770467414,
       "evaluated_samples": 5000
     }
   },
