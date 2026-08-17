@@ -2,7 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![RL: DQN & PPO](https://img.shields.io/badge/RL-DQN%20%7C%20PPO-success.svg)](https://stable-baselines3.readthedocs.io/)
+[![RL Engine: Native NumPy](https://img.shields.io/badge/RL_Engine-Native_NumPy_(DQN_%7C_PPO)-blue.svg)](#)
+[![Reproducibility: Deterministic Seeded](https://img.shields.io/badge/Reproducibility-Seed_42_Deterministic-success.svg)](#)
 
 Production-grade research implementation for the MS Thesis:  
 **"Reinforcement Learning-Based Adaptive Alerts Correlation for Detecting Multi-Stage Cyber Attacks"**  
@@ -26,8 +27,9 @@ Evaluated on an unseen **20% hold-out test set** ($N = 6,550$ multi-tier events:
 | **Streaming Throughput** | — | — | 208,000 eps | **73,344 eps** | 54,376 eps |
 
 ### Cross-Domain & Stealth Robustness
-* **Public Benchmark Transferability (CICIDS2017 + ModSecurity):** Zero-shot cross-domain ingestion achieved **96.33% detection recall** through the unified 3-tier schema normalizer.
+* **Schema-Conformant Public Proxy Benchmark (CICIDS2017 + ModSecurity):** Evaluated on standardized schema proxies generated according to public network flow (CICIDS2017) and WAF (ModSecurity) specifications. Achieved **96.33% detection recall** through the unified 3-tier schema normalizer under zero-shot transfer.
 * **Adversarial Stealth Evasion Resilience:** Under deliberate 1-hour inter-stage delays ($\Delta t = 3,600\,\text{s}$), fixed-window rule engines degraded from 100% to **16.7% recall**, while the RL agent retained **100.0% recall**.
+* **Zero-Black-Box Native Architecture:** Implements standalone, dependency-minimal DQN and PPO engines (`StandaloneDQN`, `StandalonePPO`) in pure NumPy with deterministic global seeding (`--seed 42`) for full defense reproducibility.
 
 ---
 
