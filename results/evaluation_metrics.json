@@ -37,52 +37,52 @@
   },
   "proposed_dqn_agent": {
     "model": "Proposed RL Agent (DQN)",
-    "precision": 1.0,
+    "precision": 0.984251968503937,
     "recall": 1.0,
-    "f1_score": 1.0,
-    "far": 0.0,
+    "f1_score": 0.9920634920634921,
+    "far": 0.000311284046692607,
     "mttd": 0.0,
     "tp": 125,
-    "fp": 0,
-    "tn": 6425,
+    "fp": 2,
+    "tn": 6423,
     "fn": 0
   },
   "proposed_ppo_agent": {
     "model": "Proposed RL Agent (PPO)",
-    "precision": 0.029542097488921712,
-    "recall": 0.8,
-    "f1_score": 0.05698005698005698,
-    "far": 0.511284046692607,
-    "mttd": 0.0,
-    "tp": 100,
-    "fp": 3285,
-    "tn": 3140,
-    "fn": 25
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1_score": 0.0,
+    "far": 0.0,
+    "mttd": 600.0,
+    "tp": 0,
+    "fp": 0,
+    "tn": 6425,
+    "fn": 125
   },
   "latency_and_throughput": {
     "dqn": {
-      "avg_latency_microseconds": 14.021839946508408,
-      "throughput_events_per_sec": 71317.31668703086,
+      "avg_latency_microseconds": 15.470260009169579,
+      "throughput_events_per_sec": 64640.15468436064,
       "evaluated_samples": 5000
     },
     "ppo": {
-      "avg_latency_microseconds": 18.108800053596497,
-      "throughput_events_per_sec": 55221.770467414,
+      "avg_latency_microseconds": 21.292899921536446,
+      "throughput_events_per_sec": 46964.01165106506,
       "evaluated_samples": 5000
     }
   },
   "campaign_reconstruction_metrics": {
-    "adjusted_rand_index": 0.9814358906114845,
-    "campaign_purity_homogeneity": 0.9932812139385748,
-    "cluster_completeness": 0.9937785364144968,
-    "v_measure": 0.9935298129414557,
+    "adjusted_rand_index": 0.9794345199845779,
+    "campaign_purity_homogeneity": 0.9934486968380783,
+    "cluster_completeness": 0.9906041122607875,
+    "v_measure": 0.9920243653745228,
     "kill_chain_reconstruction_rate": 1.0,
     "total_campaigns_analyzed": 25
   },
   "public_benchmark_cross_domain": {
-    "public_precision": 0.23325262308313155,
-    "public_recall": 0.9633333333333334,
-    "public_f1": 0.3755685510071475,
+    "public_precision": 1.0,
+    "public_recall": 0.9166666666666666,
+    "public_f1": 0.9565217391304348,
     "total_events": 2500
   }
 }
