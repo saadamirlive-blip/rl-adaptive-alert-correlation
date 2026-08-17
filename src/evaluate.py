@@ -30,7 +30,7 @@ from sklearn.ensemble import RandomForestClassifier, IsolationForest
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.env import LogCorrelationEnv
 from src.attack_identifier import run_rule_engine
-from src.train_agent import StandaloneDQN, StandalonePPO
+from src.train_agent import StandaloneDQN, StandalonePPO, set_global_seed
 from src.campaign_correlator import CampaignCorrelator
 from src.ingest_public_dataset import run_cross_domain_evaluation
 
@@ -127,9 +127,12 @@ def evaluate_all(
     dqn_model_path: str = "models/dqn_agent.zip",
     ppo_model_path: str = "models/ppo_agent.zip",
     ground_truth_path: str = "data/synthetic/ground_truth.jsonl",
-    results_dir: str = "results"
+    results_dir: str = "results",
+    seed: int = 42
 ) -> Dict[str, Any]:
     os.makedirs(results_dir, exist_ok=True)
+    print(f"[*] Setting deterministic global evaluation seed: {seed}")
+    set_global_seed(seed)
 
     print(f"[*] Ingesting test slice from {features_path} and {metadata_path}...")
     features = np.load(features_path)
@@ -358,4 +361,10 @@ def generate_publication_plots(
 
 
 if __name__ == "__main__":
-    evaluate_all()
+    import argparse
+    parser = argparse.ArgumentParser(description="Evaluate multi-baseline and RL correlation models.")
+    parser.add_argument("--seed", type=int, default=42, help="Random seed for reproducible evaluation (default: 42)")
+    args = parser.parse_args()
+
+    evaluate_all(seed=args.seed)
+
